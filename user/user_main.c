@@ -30,7 +30,6 @@
 #include "ets_sys.h"
 #include "driver/uart.h"
 #include "osapi.h"
-//#include <os_type.h> //-----
 #include "mqtt.h"
 #include "wifi.h"
 #include "config.h"
@@ -38,9 +37,8 @@
 #include "gpio.h"
 #include "user_interface.h"
 #include "mem.h"
-//#include "driver/ds18b20.h"
 
-#define DELAY 600000 /* milliseconds */
+#define DELAY 600000 /* milliseconds, 10 minutos */
 #define sleepms(x) os_delay_us(x*1000);
 
 LOCAL os_timer_t ds18b20_timer;
@@ -67,14 +65,11 @@ void mqttConnectedCb(uint32_t *args)
 {
 	MQTT_Client* client = (MQTT_Client*)args;
 	INFO("MQTT: Connected\r\n");
-	//MQTT_Subscribe(client, "/mqtt/topic/0", 0);
-	MQTT_Subscribe(client, "Croms/sensor0/info", 1);
-	//MQTT_Subscribe(client, "/mqtt/topic/2", 2);
 
-	MQTT_Publish(client, "Croms/sensor0/init", "Hello", 5, 0, 0);
+	MQTT_Subscribe(client, "test/sensor0/info", 1);
 
-	//MQTT_Publish(client, "/mqtt/topic/1", "hello1", 6, 1, 0);
-	//MQTT_Publish(client, "/mqtt/topic/2", "hello2", 6, 2, 0);
+
+	MQTT_Publish(client, "test/sensor0/init", "Hello", 5, 0, 0);
 
 }
 
@@ -131,13 +126,10 @@ void ICACHE_FLASH_ATTR ds18b20()
 		Whole = TReading >> 4;  // separate off the whole and fractional portions
 		Fract = (TReading & 0xf) * 100 / 16;
 		console_printf("Temperature: %c%d.%d Celsius\r\n", SignBit ? '-' : ' ', Whole, Fract < 10 ? 0 : Fract);
-	/*int temperature=(int)ds_read();
-	temperature=temperature+(int)ds_read()*256;
-	temperature/=16;
-	if (temperature>100) temperature-=4096;*/
+
 
 	os_sprintf(tBuf,"%c%d.%d", SignBit ? '-' : '+', Whole, Fract < 10 ? 0 : Fract);
-	//os_sprintf(tBuf, "%d", temperature);
+
 	MQTT_Publish(&mqttClient, "Croms/sensor0/temp",tBuf,strlen(tBuf), 0, 0);
 	os_free(tBuf);
 }
@@ -157,7 +149,7 @@ void user_init(void)
 	MQTT_InitClient(&mqttClient, sysCfg.device_id, sysCfg.mqtt_user, sysCfg.mqtt_pass, sysCfg.mqtt_keepalive, 1);
 	//MQTT_InitClient(&mqttClient, "client_id", "user", "pass", 120, 1);
 
-	MQTT_InitLWT(&mqttClient, "Croms/sensor0/lwt", "offline", 0, 0);
+	MQTT_InitLWT(&mqttClient, "test/sensor0/lwt", "offline", 0, 0);
 	MQTT_OnConnected(&mqttClient, mqttConnectedCb);
 	MQTT_OnDisconnected(&mqttClient, mqttDisconnectedCb);
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
