@@ -130,7 +130,7 @@ void ICACHE_FLASH_ATTR ds18b20()
 
 	os_sprintf(tBuf,"%c%d.%d", SignBit ? '-' : '+', Whole, Fract < 10 ? 0 : Fract);
 
-	MQTT_Publish(&mqttClient, "Croms/sensor0/temp",tBuf,strlen(tBuf), 0, 0);
+	MQTT_Publish(&mqttClient, "test/sensor0/temp",tBuf,strlen(tBuf), 0, 0);
 	os_free(tBuf);
 }
 
