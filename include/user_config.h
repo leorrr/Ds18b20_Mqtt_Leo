@@ -15,7 +15,7 @@
 #define MQTT_BUF_SIZE		1024
 #define MQTT_KEEPALIVE		120	 /*second*/
 
-#define MQTT_CLIENT_ID		"DVES_%08X"
+#define MQTT_CLIENT_ID		"test_001"
 #define MQTT_USER			"user"
 #define MQTT_PASS			"password"
 //configuracion wifi
