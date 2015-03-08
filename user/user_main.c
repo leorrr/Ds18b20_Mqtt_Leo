@@ -162,5 +162,4 @@ void user_init(void)
 
 	INFO("\r\nSystem started ...\r\n");
 }
-NFO("\r\nSystem started ...\r\n");
-}
+
