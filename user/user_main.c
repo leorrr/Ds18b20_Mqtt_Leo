@@ -66,11 +66,10 @@ void mqttConnectedCb(uint32_t *args)
 	MQTT_Client* client = (MQTT_Client*)args;
 	INFO("MQTT: Connected\r\n");
 
-	MQTT_Subscribe(client, "test/sensor0/info", 1);
 
 
-	MQTT_Publish(client, "test/sensor0/init", "Hello", 5, 0, 0);
-
+	MQTT_Publish(client, TOPIC_info, "Online", 6, 0, 0);
+	MQTT_Subscribe(client, TOPIC_info, 1);
 }
 
 void mqttDisconnectedCb(uint32_t *args)
@@ -125,12 +124,12 @@ void ICACHE_FLASH_ATTR ds18b20()
 
 		Whole = TReading >> 4;  // separate off the whole and fractional portions
 		Fract = (TReading & 0xf) * 100 / 16;
-		console_printf("Temperature: %c%d.%d Celsius\r\n", SignBit ? '-' : ' ', Whole, Fract < 10 ? 0 : Fract);
+		console_printf("Temperature: %c%d.%d Celsius\r\n",SignBit ? '-' : ' ', Whole, Fract < 10 ? 0 : Fract);
 
 
 	os_sprintf(tBuf,"%c%d.%d", SignBit ? '-' : '+', Whole, Fract < 10 ? 0 : Fract);
 
-	MQTT_Publish(&mqttClient, "test/sensor0/temp",tBuf,strlen(tBuf), 0, 0);
+	MQTT_Publish(&mqttClient, TOPIC_temp,tBuf,strlen(tBuf), 0, 0);
 	os_free(tBuf);
 }
 
@@ -149,7 +148,7 @@ void user_init(void)
 	MQTT_InitClient(&mqttClient, sysCfg.device_id, sysCfg.mqtt_user, sysCfg.mqtt_pass, sysCfg.mqtt_keepalive, 1);
 	//MQTT_InitClient(&mqttClient, "client_id", "user", "pass", 120, 1);
 
-	MQTT_InitLWT(&mqttClient, "test/sensor0/lwt", "offline", 0, 0);
+	MQTT_InitLWT(&mqttClient, TOPIC_lwt, "offline", 0, 0);
 	MQTT_OnConnected(&mqttClient, mqttConnectedCb);
 	MQTT_OnDisconnected(&mqttClient, mqttDisconnectedCb);
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
@@ -162,4 +161,6 @@ void user_init(void)
 	os_timer_arm(&ds18b20_timer, DELAY, 1);
 
 	INFO("\r\nSystem started ...\r\n");
+}
+NFO("\r\nSystem started ...\r\n");
 }
