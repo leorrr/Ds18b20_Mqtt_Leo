@@ -6,6 +6,9 @@
 #define CLIENT_SSL_ENABLE
 
 /*DEFAULT CONFIGURATIONS*/
+#define TOPIC_info "test/sensor1/info" // topic mensaje info Croms/sensor1/info
+#define TOPIC_temp "test/sensor1/temp"// topic mensaje temp Croms/sensor1/temp
+#define TOPIC_lwt "test/sensor1/lwt" // topic mensaje lwt Croms/sensor1/lwt
 
 #define MQTT_HOST			"10.0.0.9" //or "mqtt.yourdomain.com"
 #define MQTT_PORT			1883
