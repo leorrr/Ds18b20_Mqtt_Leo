@@ -1,5 +1,5 @@
 Lectura de una sonda de temperatura ds18b20 con esp8266 esp01, y publicacion de la temperatura por medio de mensaje mqtt cada 10 minutos posibilidad de recibir un mensaje y publicar como respuesta la temperatura actual
-
+Editar configuraciones host, user, password etc etc en fichero include/user_config.h 
 Requried:
 
 SDK esp_iot_sdk_v0.9.4_14_12_19 or higher
