@@ -2,7 +2,7 @@ Lectura de una sonda de temperatura ds18b20 con esp8266 esp01, y publicacion de 
 Editar configuraciones host, user, password etc etc en fichero include/user_config.h 
 Requried:
 
-SDK esp_iot_sdk_v0.9.4_14_12_19 or higher
+SDK esp_iot_sdk_v0.9.4_14_12_19 to esp_iot_sdk_v1.0.1_b1_15_04_02
 
 Mqtt library for esp8266 Authors: Tuan PM
 
