@@ -100,6 +100,8 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 	INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);
 	if (strcmp(topicBuf,TOPIC_info)==0 && strcmp(dataBuf,"temp")==0){
 			ds18b20();}
+	if (strcmp(topicBuf,TOPIC_info)==0 && strcmp(dataBuf,"reset")==0){
+		system_restart();}//Leo
 	os_free(topicBuf);
 	os_free(dataBuf);
 }
